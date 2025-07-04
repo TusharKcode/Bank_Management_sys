@@ -1,5 +1,3 @@
-from tkinter.font import names
-
 from logic.account import create_customers, create_account, deposit, withdraw
 from logic.utils import get_connection
 
@@ -9,7 +7,7 @@ def view_balance(account_id):
     cursor.execute("SELECT balance FROM accounts WHERE account_id = %s", (account_id,))
     result = cursor.fetchone()
     if result:
-        print(f"Current Balance: ₹{result[0]:.2f}")
+        print(f"Current Balance: Rs.{result[0]:.2f}")
     else:
         print(f"No account with account_id {account_id}")
     cursor.close()
@@ -23,12 +21,13 @@ def view_transactions(account_id):
     if results:
         print(f"Transaction History: ")
         for row in results:
-            print(f"Type: {row[0]}, Amount: ₹{row[1]:.2f}, Date: {row[2]}")
+            print(f"Type: {row[0]}, Amount: Rs.{row[1]:.2f}, Date: {row[2]}")
     else:
         print(f"No Transaction Found")
     cursor.close()
     conn.close()
 
+#------------------------------------------------------------------------------------->>>>>>>>>> Main Menu
 def main_menu():
     while True:
         print("1. Create Customer")
