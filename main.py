@@ -5,7 +5,7 @@ from logic.utils import get_connection
 class InsufficientBalanceError:
     pass
 
-
+#--------------------------------------------------------------------------------->>>>>Balance & Transaction
 def view_balance(account_id):
     conn = get_connection()
     cursor = conn.cursor()
@@ -46,7 +46,6 @@ def main_menu():
     except InvalidPinError as e:
         print(e)
         return
-
 
     while True:
         print("Logged In as: ", username)
@@ -105,9 +104,8 @@ if __name__ == "__main__":
             email = input("Enter your email: ")
             password = input("Enter your password: ")
             login_username = input("Choose a Login Username: ")
-            pin = input("Choose a PIN (4-6 digits): ")
 
-            create_customers(name, phone_number, email, password, login_username, pin)
+            create_customers(name, phone_number, email, password, login_username)
 
         elif choice == "n":
             break

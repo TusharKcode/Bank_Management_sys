@@ -12,6 +12,9 @@ class InvalidPinError(Exception):
 def generate_acc_no():
     return str(random.randint(10**12, 10**13 - 1))              #<<<<<<-------------------Unique Acc. No.
 
+def generate_pin():
+    return str(random.randint(1000, 999999))              #<<<<<<----------Auto generate Login PIN
+
 #--------------------------------------------------------------------------------------->>>>>User Login Part
 def login(username, pin):
     conn = get_connection()
@@ -31,9 +34,8 @@ def login(username, pin):
     print("Login successful.")
     return customer_id
 
-
 #--------------------------------------------------------------------------------------->>>>>Customer Part
-def create_customers(name, email, password, login_username, pin):
+def create_customers(name, email, password, login_username):
     conn = get_connection()
     cursor = conn.cursor()
 
@@ -44,6 +46,8 @@ def create_customers(name, email, password, login_username, pin):
         conn.close()
         return None
 
+    pin = generate_pin()
+
     sql = "INSERT INTO customers (name, email, password, login_username, pin) VALUES (%s, %s, %s, %s, %s)"
     val = (name, email, password, login_username, pin)
     cursor.execute(sql, val)
@@ -51,11 +55,12 @@ def create_customers(name, email, password, login_username, pin):
 
     customer_id = cursor.lastrowid  # Get new ID
     print("Customer created successfully, ID:", customer_id)
+    print(f"Your Login PIN: {pin}. Don't share to anyone and keep it safe." )
     cursor.close()
     conn.close()
     return customer_id
 
-
+#------------------------------------------------------------------------------------>>>>>Create Account Part
 def create_account(customer_id, account_type):
     conn = get_connection()
     cursor = conn.cursor()
