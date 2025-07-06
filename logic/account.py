@@ -17,18 +17,20 @@ def login(username, pin):
     conn = get_connection()
     cursor = conn.cursor()
 
-    sql = "SELECT customer_id FROM customers WHERE login_username = %s AND pin = %s"
-    cursor.execute(sql, (username, pin))
+    cursor.execute("SELECT customer_id FROM customers WHERE login_username = %s AND pin = %s", (username, pin))
     result =  cursor.fetchone()
 
+    if result is None:
+        cursor.close()
+        conn.close()
+        raise InvalidPinError("Invalid Username or Pin")
+
+    customer_id = result[0]
     cursor.close()
     conn.close()
+    print("Login successful.")
+    return customer_id
 
-    if result:
-        print("Login successful.")
-        return result[0]
-    else:
-        raise InvalidPinError("Invalid Username or Pin")
 
 #--------------------------------------------------------------------------------------->>>>>Customer Part
 def create_customers(name, email, password, login_username, pin):
@@ -37,7 +39,7 @@ def create_customers(name, email, password, login_username, pin):
 
     cursor.execute("SELECT * FROM customers WHERE email = %s", (email,))
     if cursor.fetchone():
-        print("⚠️ Customer with this email already exists.")
+        print("Customer with this email already exists.")
         cursor.close()
         conn.close()
         return None

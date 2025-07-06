@@ -1,5 +1,10 @@
-from logic.account import create_customers, create_account, deposit, withdraw
+
+from logic.account import create_customers, create_account, deposit, withdraw, InvalidPinError, InvalidAccountError, login
 from logic.utils import get_connection
+
+class InsufficientBalanceError:
+    pass
+
 
 def view_balance(account_id):
     conn = get_connection()
@@ -29,47 +34,61 @@ def view_transactions(account_id):
 
 #------------------------------------------------------------------------------------->>>>>>>>>> Main Menu
 def main_menu():
+
+    print("Welcome to P.Y. Bank Management System")
+    print("Please Login in First!")
+
+    username = input("Enter your Username: ")
+    pin = input("Enter your Pin (4-6 digits): ")
+
+    try:
+        customer_id = login(username, pin)
+    except InvalidPinError as e:
+        print(e)
+        return
+
+
     while True:
-        print("1. Create Customer")
-        print("2. Create Account")
-        print("3. Deposit")
-        print("4. Withdraw")
-        print("5. View Account Balance")
-        print("6. View Transactions")
-        print("7. Exit")
+        print("Logged In as: ", username)
+        print("1. Create Account")
+        print("2. Deposit")
+        print("3. Withdraw")
+        print("4. View Account Balance")
+        print("5. View Transactions")
+        print("6. Exit")
 
         choice = input("Enter your choice: ")
 
         if choice == "1":
-            name = input("Enter your name: ")
-            email = input("Enter your email: ")
-            password = input("Enter your password: ")
-            create_customers(name, email, password)
-
-        elif choice == "2":
-            customer_id = input("Enter your customer id: ")
-            account_type = input("Enter your account type: ")
+            account_type = input("Enter your account type (eg. Saving): ")
             create_account(customer_id, account_type)
 
-        elif choice == "3":
+        elif choice == "2":
             account_id = input("Enter your account id: ")
             amount = float(input("Enter your amount to deposit: "))
             deposit(account_id, amount)
 
-        elif choice == "4":
+        elif choice == "3":
             account_id = input("Enter your account id: ")
             amount = float(input("Enter your amount to withdraw: "))
             withdraw(account_id, amount)
 
-        elif choice == "5":
+            try:
+                withdraw(account_id, amount)
+            except InvalidAccountError as e:
+                print(e)
+            except InsufficientBalanceError as e:
+                print(e)
+
+        elif choice == "4":
             account_id = input("Enter your account id: ")
             view_balance(account_id)
 
-        elif choice == "6":
+        elif choice == "5":
             account_id = input("Enter your account id: ")
             view_transactions(account_id)
 
-        elif choice == "7":
+        elif choice == "6":
             print("Thanks for using this Bank Management System. Goodbye!")
             break
 
@@ -77,6 +96,23 @@ def main_menu():
             print("Invalid choice")
 
 if __name__ == "__main__":
+    print("Welcome, You must create a customer account, if you don't have one.")
+    while True:
+        choice = input("Do you want to create a new customer account? (y/n): ").lower()
+        if choice == "y":
+            name = input("Enter your name: ")
+            phone_number = input("Enter your phone number: ")
+            email = input("Enter your email: ")
+            password = input("Enter your password: ")
+            login_username = input("Choose a Login Username: ")
+            pin = input("Choose a PIN (4-6 digits): ")
+
+            create_customers(name, phone_number, email, password, login_username, pin)
+
+        elif choice == "n":
+            break
+        else:
+            print("Please Type 'y' or 'n'.")
     main_menu()
 
 
