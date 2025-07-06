@@ -1,9 +1,7 @@
 
-from logic.account import create_customers, create_account, deposit, withdraw, InvalidPinError, InvalidAccountError, login
+from logic.account import create_customers, create_account, deposit, withdraw, InvalidPinError, \
+    login
 from logic.utils import get_connection
-
-class InsufficientBalanceError:
-    pass
 
 #--------------------------------------------------------------------------------->>>>>Balance & Transaction
 def view_balance(account_id):
@@ -56,38 +54,30 @@ def main_menu():
         print("5. View Transactions")
         print("6. Exit")
 
-        choice = input("Enter your choice: ")
-
-        if choice == "1":
+        menu_choice = input("Enter your choice: ")
+        if menu_choice == "1":
             account_type = input("Enter your account type (eg. Saving): ")
             create_account(customer_id, account_type)
 
-        elif choice == "2":
+        elif menu_choice == "2":
             account_id = input("Enter your account id: ")
             amount = float(input("Enter your amount to deposit: "))
             deposit(account_id, amount)
 
-        elif choice == "3":
+        elif menu_choice == "3":
             account_id = input("Enter your account id: ")
             amount = float(input("Enter your amount to withdraw: "))
             withdraw(account_id, amount)
 
-            try:
-                withdraw(account_id, amount)
-            except InvalidAccountError as e:
-                print(e)
-            except InsufficientBalanceError as e:
-                print(e)
-
-        elif choice == "4":
-            account_id = input("Enter your account id: ")
+        elif menu_choice == "4":
+            account_id = int(input("Enter your account id: "))
             view_balance(account_id)
 
-        elif choice == "5":
-            account_id = input("Enter your account id: ")
+        elif menu_choice == "5":
+            account_id = int(input("Enter your account id: "))
             view_transactions(account_id)
 
-        elif choice == "6":
+        elif menu_choice == "6":
             print("Thanks for using this Bank Management System. Goodbye!")
             break
 
@@ -105,7 +95,7 @@ if __name__ == "__main__":
             password = input("Enter your password: ")
             login_username = input("Choose a Login Username: ")
 
-            create_customers(name, phone_number, email, password, login_username)
+            create_customers(name, email, password, login_username)
 
         elif choice == "n":
             break
