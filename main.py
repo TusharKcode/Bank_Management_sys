@@ -1,7 +1,19 @@
-
 from logic.account import create_customers, create_account, deposit, withdraw, InvalidPinError, \
     login
 from logic.utils import get_connection
+
+#--------------------------------------------------------------------------------->>>>>Helper Function
+def get_acc_id_by_number(account_number):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT account_id FROM accounts WHERE account_number = %s", (account_number,))
+    result = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    if result:
+        return result[0]
+    else:
+        return None
 
 #--------------------------------------------------------------------------------->>>>>Balance & Transaction
 def view_balance(account_id):
@@ -60,21 +72,37 @@ def main_menu():
             create_account(customer_id, account_type)
 
         elif menu_choice == "2":
-            account_id = input("Enter your account id: ")
+            account_number = input("Enter your account number: ")
+            account_id = get_acc_id_by_number(account_number)
+            if not account_id:
+                print("Invalid Account Number. Please check and try again.")
+                continue
             amount = float(input("Enter your amount to deposit: "))
             deposit(account_id, amount)
 
         elif menu_choice == "3":
-            account_id = input("Enter your account id: ")
+            account_number = input("Enter your account number: ")
+            account_id = get_acc_id_by_number(account_number)
+            if not account_id:
+                print("Invalid Account Number. Please check and try again.")
+                continue
             amount = float(input("Enter your amount to withdraw: "))
             withdraw(account_id, amount)
 
         elif menu_choice == "4":
-            account_id = int(input("Enter your account id: "))
+            account_number = input("Enter your account number: ")
+            account_id = get_acc_id_by_number(account_number)
+            if not account_id:
+                print("Invalid Account Number. Please check and try again.")
+                continue
             view_balance(account_id)
 
         elif menu_choice == "5":
-            account_id = int(input("Enter your account id: "))
+            account_number = input("Enter your account number: ")
+            account_id = get_acc_id_by_number(account_number)
+            if not account_id:
+                print("Invalid Account Number. Please check and try again.")
+                continue
             view_transactions(account_id)
 
         elif menu_choice == "6":
