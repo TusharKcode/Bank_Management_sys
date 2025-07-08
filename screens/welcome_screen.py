@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QWidget, QLabel, QPushButton, QVBoxLayout
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap, QFont
 
-class Welcome_screen(QWidget):
+class Welcomescreen(QWidget):
     def __init__(self, on_start_callback):
         super().__init__()
         self.on_start_callback = on_start_callback
