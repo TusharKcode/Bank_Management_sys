@@ -1,68 +1,71 @@
-# Bank Management System
+# 🏦 PY BANK — Bank Management System
 
-A cross-platform Python-based desktop application to simulate a basic bank management system.
-Built with PyQt5 for modern GUI and SQLite (later steps) for data handling.
-
-
----
-
-## Features
-
-**Step 1**: Welcome Screen
-- Displays bank logo and welcome message.
-- "Get Started" button to enter the app.
-- Uses PyQt5 vertical layout with image scaling and fallback text.
-
-**Step 2**: Login Screen
-- Username and password input fields.
-- "Login" button for existing users.
-- "Create an Account" button to navigate to Signup screen (coming next).
-- Fields declared properly to avoid warnings.
-- Transition handled via QStackedWidget.
+A Python-based console application for managing a simple bank system with modular design.  
+Built with Python (no external database yet), fully modular, and easy to extend.
 
 ---
 
-## Tech Stack
+## ✨ Features
 
-- **Language**: Python 3.x
-- **PyQt5** — GUI
-- **Database**: MySQL
-- **Libraries**: mysql-connector-python
+- Register new users (Admin, Manager, Customer)
+- User login and PIN-based authentication
+- Create multiple bank accounts per user
+- Deposit and withdraw funds
+- View account details and transaction history
+- Reset login and transaction PINs
+- Interest calculation for savings accounts
+- Basic admin and manager modules (structure ready)
 
 ---
 
-## 📂 Project Structure
+## 🗂️ Project Structure
+
 ```
-bank_management_system/
+bank_sys/
 │
-├── main.py
-├── screens/
-│   ├── welcome_screen.py
-│   ├── login_screen.py
-│   ├── signup_screen.py         ← placeholder (next step)
-│   └── dashboard_screen.py      ← placeholder (future)
-│
-├── database/
-│   └── db_handler.py            ← placeholder (to implement in next step)
-│
-├── assets/
-│   └── logo.png
-│
-└── utils/
-    └── helpers.py               ← (optional for validations/utilities)
+├── main.py                 # <<<----- Entry point & menu-driven logic
+├── user.py                 # <<<----- User class and related methods
+├── bank_account.py         # <<<----- BankAccount and FixedDeposit classes
+├── admin.py                # <<<----- Admin-related functionalities
+├── manager.py              # <<<----- Manager functionalities
+├── blacklist.py            # <<<----- Blacklist handling
+├── utils.py                # <<<----- Custom exceptions
+└── README.md               # <<<----- Project documentation
+
+```
+---
+
+## ⚙️ Requirements
+
+- Python 3.8 or higher
+- No external libraries (for now)
+
+---
+
+## 🚀 How to Run
+
+1. Clone this repository or copy files into a folder.
+2. Open terminal (or VS Code terminal) and navigate to project folder.
+3. Run:
+
+```
+python main.py
 ```
 
-## Future Enhancements
-- Add a user interface (Tkinter or PyQt)
-- Add authentication and login system
-- Show transaction history and account statements
-- Admin panel for managing all users
+- Follow on-screen menu instructions to register, create accounts, and perform transactions.
 
-## Contributing
-Pull requests and suggestions are welcome! Feel free to fork this repo and improve it.
+---
 
-# License
-This project is open-source. Feel free to use and modify.
+## 💡 Future Enhancements
+- MySQL database integration for storing users and transactions permanently
+- GUI using Tkinter or PyQt
+- Customer support chatbot module
+- PDF/CSV statement download options
 
-# Contact
-Tushar Kumar — [https://www.linkedin.com/in/tushar-kumar-developer/] — [tkgoyal104@gmail.com]
+---
+
+## 📄 License
+This project is for educational purposes and free to use.
+
+## 🙌 Author
+**Tushar Kumar** | LinkedIn - [https://www.linkedin.com/in/tushar-kumar-developer/]
